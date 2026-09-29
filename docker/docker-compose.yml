@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./healthcare.db
+      - SECRET_KEY=change-in-production
+      - DEBUG=true
+    volumes:
+      - ../backend:/app/backend
+    restart: unless-stopped
+
+  # Uncomment for PostgreSQL in production:
+  # db:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_USER: healthuser
+  #     POSTGRES_PASSWORD: healthpass
+  #     POSTGRES_DB: healthdb
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pg_data:/var/lib/postgresql/data
+
+# volumes:
+#   pg_data:
